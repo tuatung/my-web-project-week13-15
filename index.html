@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khon Kaen Luxury Stay - ค้นหาโรงแรม 4-5 ดาว ขอนแก่น</title>
+
+    <!-- นำเข้าฟอนต์ Kanit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- นำเข้าไอคอน FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #0f172a;      /* สีกรมท่าเข้มหรูหรา */
+            --primary-light: #1e293b;
+            --accent: #d97706;       /* สีทองพรีเมียม */
+            --accent-hover: #b45309;
+            --emerald: #059669;      /* สีเขียวรับประกัน/ดาว */
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Kanit', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* 1. Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-btn {
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* 2. Hero Section */
+        .hero {
+            position: relative;
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            padding: 100px 8% 130px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #cbd5e1;
+            max-width: 650px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+        }
+
+        /* กล่องค้นหาและตัวกรอง (Search & Filter) */
+        .search-box {
+            background: var(--white);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 120px;
+            gap: 15px;
+            align-items: center;
+            color: var(--text-main);
+            text-align: left;
+        }
+
+        .filter-item label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .filter-item select, .filter-item input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            background-color: #f8fafc;
+        }
+
+        .filter-item select:focus, .filter-item input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-search {
+            height: 48px;
+            margin-top: 18px;
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-search:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* 3. Section Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* 4. Hotel Cards Grid */
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .hotel-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #f1f5f9;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.12);
+        }
+
+        .card-img-wrap {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .hotel-card:hover .card-img-wrap img {
+            transform: scale(1.06);
+        }
+
+        .star-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(5px);
+            color: #fbbf24;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .zone-tag {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: var(--white);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-body {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .hotel-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .hotel-location {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .amenities {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .amenities span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-wrap .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .price-wrap .price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .btn-view {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view:hover {
+            background-color: var(--accent);
+        }
+
+        /* 5. Highlights & Facilities */
+        .features {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 50px 30px;
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .feature-box i {
+            font-size: 36px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .feature-box h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .feature-box p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* 6. Map Section */
+        .map-section {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 400px;
+            margin-top: 40px;
+        }
+
+        .map-section iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* 7. Reviews Section */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .review-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+        }
+
+        .review-stars {
+            color: #fbbf24;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .review-text {
+            font-size: 15px;
+            color: #475569;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* 8. Booking & Contact / Issue Form */
+        .contact-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 110px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* 9. Modal Popup (รายละเอียดการจอง) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 10. Footer */
+        footer {
+            background-color: var(--primary);
+            color: #94a3b8;
+            padding: 50px 8% 25px;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #1e293b;
+            margin-top: 30px;
+            font-size: 13px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            .contact-wrap { grid-template-columns: 1fr; }
+            .search-box { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 32px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Navigation -->
+    <nav>
+        <a href="#home" class="logo">
+            <i class="fa-solid fa-hotel"></i> KhonKaen<span>Stay</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#home">หน้าแรก</a></li>
+            <li><a href="#hotels">โรงแรมแนะนำ</a></li>
+            <li><a href="#facilities">สิ่งอำนวยความสะดวก</a></li>
+            <li><a href="#map">แผนที่</a></li>
+            <li><a href="#reviews">รีวิว</a></li>
+            <li><a href="#contact">ติดต่อ/แจ้งปัญหา</a></li>
+        </ul>
+        <a href="#contact" class="nav-btn">จองห้องพัก</a>
+    </nav>
+
+    <!-- 2. Hero Section & Search Filter -->
+    <header class="hero" id="home">
+        <h1>ค้นหาโรงแรม <span>4-5 ดาว</span> ที่ดีที่สุดในขอนแก่น</h1>
+        <p>พักผ่อนอย่างเหนือระดับ ตอบโจทย์ทุกการเดินทางเพื่อธุรกิจ ท่องเที่ยว หรืองานรับปริญญา มข.</p>
+
+        <!-- ระบบค้นหาและตัวกรอง -->
+        <div class="search-box">
+            <div class="filter-item">
+                <label><i class="fa-solid fa-location-dot"></i> ทำเลในขอนแก่น</label>
+                <select id="zoneFilter">
+                    <option value="all">ทุกทำเล</option>
+                    <option value="city">ใจกลางเมือง</option>
+                    <option value="kku">ใกล้มหาวิทยาลัยขอนแก่น</option>
+                    <option value="lake">ริมบึงแก่นนคร</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label><i class="fa-solid fa-star"></i> ระดับมาตรฐาน</label>
+                <select id="starFilter">
+                    <option value="all">ทั้งหมด (4-5 ดาว)</option>
+                    <option value="5">โรงแรม 5 ดาว</option>
+                    <option value="4">โรงแรม 4 ดาว</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label><i class="fa-solid fa-tag"></i> งบประมาณ / คืน</label>
+                <select id="priceFilter">
+                    <option value="all">ทุกระดับราคา</option>
+                    <option value="under2000">ต่ำกว่า 2,000 บาท</option>
+                    <option value="above2000">2,000 บาทขึ้นไป</option>
+                </select>
+            </div>
+            <button class="btn-search" onclick="filterHotels()"><i class="fa-solid fa-magnifying-glass"></i> ค้นหา</button>
+        </div>
+    </header>
+
+    <!-- 3. Featured Hotels Section -->
+    <main class="container" id="hotels">
+        <div class="section-header">
+            <h2>โรงแรม 4-5 ดาว แนะนำในขอนแก่น</h2>
+            <p>คัดสรรที่พักคุณภาพ บรรยากาศพรีเมียม พร้อมบริการระดับสากล</p>
+        </div>
+
+        <div class="hotels-grid" id="hotelsContainer">
+            <!-- การ์ดโรงแรมจะแสดงผลและฟิลเตอร์ผ่าน JavaScript -->
+        </div>
+
+        <!-- 4. Facilities Highlights -->
+        <section class="features" id="facilities">
+            <div class="section-header" style="margin-bottom: 30px;">
+                <h2>บริการและสิ่งอำนวยความสะดวกระดับพรีเมียม</h2>
+                <p>มาตรฐานโรงแรมชั้นนำเพื่อความสะดวกสบายตลอดการเข้าพัก</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <i class="fa-solid fa-person-swimming"></i>
+                    <h4>สระว่ายน้ำกลางแจ้ง</h4>
+                    <p>ผ่อนคลายกับสระว่ายน้ำวิวพาโนรามาและบาร์ริมสระ</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-utensils"></i>
+                    <h4>อาหารเช้าบุฟเฟต์นานาชาติ</h4>
+                    <p>อิ่มอร่อยกับเมนูอาหารอีสานต้นตำรับและอาหารตะวันตก</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-van-shuttle"></i>
+                    <h4>รถรับ-ส่ง สนามบินขอนแก่น</h4>
+                    <p>บริการรับส่งสนามบินขอนแก่น (KKC) สะดวกปลอดภัย</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-wifi"></i>
+                    <h4>High-Speed Wi-Fi ฟรี</h4>
+                    <p>อินเทอร์เน็ตความเร็วสูง รองรับการทำงานแบบ Work from Hotel</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Map Section -->
+        <div class="section-header" id="map" style="margin-top: 80px; margin-bottom: 25px;">
+            <h2>ทำเลและพิกัดที่ตั้ง</h2>
+            <p>ตั้งอยู่ใจกลางเมืองขอนแก่น ใกล้ห้างเซ็นทรัล, ม.ขอนแก่น และบึงแก่นนคร</p>
+        </div>
+        <div class="map-section">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122247.78160408544!2d102.75338349887713!3d16.43224726487841!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31228a25c1103ad7%3A0x10346c5fa8a4520!2z4LmA4Lih4Li34Lit4LiH4LiC4Lit4LiZ4LiB4LmI4Lit4LiZ!5e0!3m2!1sth!2sth!4v1700000000000!5m2!1sth!2sth" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <!-- 6. Customer Reviews -->
+        <div class="section-header" id="reviews" style="margin-top: 80px; margin-bottom: 40px;">
+            <h2>รีวิวและความคิดเห็นจากผู้เข้าพัก</h2>
+            <p>การันตีความพึงพอใจจากนักท่องเที่ยวและนักธุรกิจที่เคยเข้าพักจริง</p>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"พักที่ Pullman เดินทางสะดวกมาก ใกล้เซ็นทรัล อาหารเช้าหลากหลาย เตียงนอนนุ่มสบายระดับ 5 ดาวจริงๆ ครับ"</p>
+                <div class="review-user">
+                    <div class="avatar">ก</div>
+                    <div>
+                        <strong>คุณกิตติศักดิ์</strong>
+                        <p style="font-size: 12px; color: var(--text-muted);">เข้าพักเพื่อธุรกิจ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"วิวเมืองสวยงามมากที่ Ad Lib ห้องพักทันสมัย ดีไซน์สวย เหมาะกับการพาครอบครัวมาพักผ่อนในวันหยุด"</p>
+                <div class="review-user">
+                    <div class="avatar">พ</div>
+                    <div>
+                        <strong>คุณพิมพ์นารา</strong>
+                        <p style="font-size: 12px; color: var(--text-muted);">เข้าพักกับครอบครัว</p>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★☆</div>
+                <p class="review-text">"โรงแรม Avani บริการดีมาก พนักงานยิ้มแย้ม สระว่ายน้ำใหญ่ เหมาะมากสำหรับใครที่มาร่วมงานรับปริญญา มข."</p>
+                <div class="review-user">
+                    <div class="avatar">ธ</div>
+                    <div>
+                        <strong>คุณธนกร</strong>
+                        <p style="font-size: 12px; color: var(--text-muted);">ร่วมงานรับปริญญา มข.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Booking & Inquiry / Report Form -->
+        <div class="section-header" id="contact" style="margin-top: 80px; margin-bottom: 40px;">
+            <h2>ติดต่อสอบถาม / จองห้องพักล่วงหน้า</h2>
+            <p>กรอกแบบฟอร์มเพื่อติดต่อจอง หรือแจ้งปัญหาการใช้งาน ทางเราจะติดต่อกลับโดยเร็วที่สุด</p>
+        </div>
+        <div class="contact-wrap">
+            <div>
+                <h3 style="margin-bottom: 15px; color: var(--primary);">ข้อมูลติดต่อส่วนกลาง</h3>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">หากท่านต้องการสอบถามข้อมูลด่วน สามารถติดต่อฝ่ายดูแลลูกค้าสัมพันธ์ได้โดยตรง</p>
+                <p style="margin-bottom: 10px;"><i class="fa-solid fa-phone" style="color: var(--accent); width: 25px;"></i> 096-363-4895</p>
+                <p style="margin-bottom: 10px;"><i class="fa-solid fa-envelope" style="color: var(--accent); width: 25px;"></i> pongtawan.kon@spumail.net</p>
+                <p style="margin-bottom: 10px;"><i class="fa-solid fa-location-dot" style="color: var(--accent); width: 25px;"></i> อำเภอเมือง จังหวัดขอนแก่น 40000</p>
+                <div style="margin-top: 30px;">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" style="width: 100%; border-radius: 12px; object-fit: cover; height: 180px;" alt="Hotel reception">
+                </div>
+            </div>
+            <div>
+                <form id="inquiryForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label>ประเภทการติดต่อ</label>
+                        <select id="formType" required>
+                            <option value="booking">สอบถามการจองห้องพัก</option>
+                            <option value="problem">แจ้งปัญหาการใช้งาน / ยกเลิกการจอง</option>
+                            <option value="other">สอบถามข้อมูลอื่นๆ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ชื่อ-นามสกุล</label>
+                        <input type="text" id="custName" placeholder="เช่น นายสมชาย ใจดี" required>
+                    </div>
+                    <div class="form-group">
+                        <label>เบอร์โทรศัพท์ หรือ อีเมล</label>
+                        <input type="text" id="custContact" placeholder="08x-xxx-xxxx หรือ email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>รายละเอียด / ข้อความ</label>
+                        <textarea id="custMessage" placeholder="ระบุโรงแรมที่สนใจ วันเข้าพัก หรือรายละเอียดปัญหา..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> ส่งข้อมูล</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Popup รายละเอียดการจอง -->
+    <div class="modal" id="hotelModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalHotelName" style="color: var(--primary); margin-bottom: 10px;">ชื่อโรงแรม</h3>
+            <p id="modalHotelStars" style="color: #fbbf24; margin-bottom: 15px;">★★★★★</p>
+            <p id="modalHotelDesc" style="color: var(--text-muted); margin-bottom: 20px;">รายละเอียดโรงแรม</p>
+            <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <p><b>ราคาเริ่มต้น:</b> <span id="modalHotelPrice" style="color: var(--accent); font-size: 20px; font-weight: 700;"></span> / คืน</p>
+                <p><b>ทำเล:</b> <span id="modalHotelZone"></span></p>
+            </div>
+            <a href="#contact" onclick="closeModal()" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">ไปยังแบบฟอร์มจองห้องพักนี้</a>
+        </div>
+    </div>
+
+    <!-- 8. Footer -->
+    <footer>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <h4 style="color: white; margin-bottom: 10px;">KhonKaenStay</h4>
+                <p>ศูนย์รวมข้อมูลและค้นหาที่พักโรงแรม 4-5 ดาวในจังหวัดขอนแก่น</p>
+            </div>
+            <div>
+                <h4 style="color: white; margin-bottom: 10px;">พัฒนาโดย</h4>
+                <p>นายพงศ์ตะวัน กอนเชื้อรัตน์ (รหัส 66406120)</p>
+                <p>สาขาวิชานวัตกรรมธุรกิจดิจิทัล</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Khon Kaen Luxury Stay Mini Project. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        // ข้อมูลโรงแรม 4-5 ดาวในขอนแก่น (พร้อมเชื่อมต่อ Cloud Database ในขั้นตอนต่อไป)
+        const hotelsData = [
+            {
+                id: 1,
+                name: "Pullman Khon Kaen Raja Orchid",
+                stars: 5,
+                zone: "city",
+                zoneLabel: "ใจกลางเมืองขอนแก่น",
+                price: 2500,
+                desc: "โรงแรมหรู 5 ดาวใจกลางเมือง ใกล้เซ็นทรัล มีสปา ห้องอาหารนานาชาติ และสระว่ายน้ำขนาดใหญ่",
+                image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                name: "Avani Khon Kaen Hotel & Convention Centre",
+                stars: 5,
+                zone: "kku",
+                zoneLabel: "ใกล้มหาวิทยาลัยขอนแก่น / ประชาสโมสร",
+                price: 2200,
+                desc: "โรงแรม 5 ดาวสไตล์ไทยร่วมสมัย สระว่ายน้ำกลางสวนธรรมชาติ และศูนย์ประชุมขนาดใหญ่",
+                image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                name: "Ad Lib Hotel Khon Kaen",
+                stars: 5,
+                zone: "city",
+                zoneLabel: "ใจกลางเมือง (ตึกขอนแก่นอินโนเวชั่น)",
+                price: 3200,
+                desc: "โรงแรมลักชูรีดีไซน์โมเดิร์นบนตึกสูง ชมวิวขอนแก่น 360 องศา พร้อมสระว่ายน้ำไร้ขอบลอยฟ้า",
+                image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                name: "Nadhi Bhadra Hotel (นทีภัทรา)",
+                stars: 4,
+                zone: "kku",
+                zoneLabel: "ใกล้มหาวิทยาลัยขอนแก่น / สนามบิน",
+                price: 1500,
+                desc: "โรงแรม 4 ดาวบรรยากาศอบอุ่น สงบเงียบ ตกแต่งสไตล์มินิมอลโมเดิร์น เดินทางไปสนามบินและ มข. สะดวกมาก",
+                image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Kosa Hotel & Shopping Mall",
+                stars: 4,
+                zone: "city",
+                zoneLabel: "ใจกลางเมือง ถนนศรีจันทร์",
+                price: 1300,
+                desc: "โรงแรมระดับตำนานคู่เมืองขอนแก่น ทำเลทองถนนศรีจันทร์ สิ่งอำนวยความสะดวกครบครัน",
+                image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Romantic Khon Kaen Hotel",
+                stars: 4,
+                zone: "lake",
+                zoneLabel: "ริมบึงแก่นนคร",
+                price: 1200,
+                desc: "ที่พักริมบึงแก่นนคร บรรยากาศโรแมนติก วิวพระอาทิตย์ตกดิน เหมาะแก่การพักผ่อนหย่อนใจ",
+                image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // ฟังก์ชันเรนเดอร์การ์ดโรงแรม
+        function displayHotels(list) {
+            const container = document.getElementById('hotelsContainer');
+            container.innerHTML = '';
+
+            if (list.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 18px; padding: 40px;">ไม่พบโรงแรมตามเงื่อนไขที่คุณเลือก กรุณาลองค้นหาใหม่อีกครั้ง</p>`;
+                return;
+            }
+
+            list.forEach(hotel => {
+                const starStr = '★'.repeat(hotel.stars);
+                const card = `
+                    <div class="hotel-card">
+                        <div class="card-img-wrap">
+                            <img src="${hotel.image}" alt="${hotel.name}">
+                            <span class="star-tag">${starStr} ${hotel.stars} ดาว</span>
+                            <span class="zone-tag"><i class="fa-solid fa-location-dot"></i> ${hotel.zoneLabel}</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="hotel-title">${hotel.name}</h3>
+                            <p class="hotel-location"><i class="fa-solid fa-map-pin" style="color: var(--accent);"></i> ${hotel.zoneLabel}</p>
+                            <div class="amenities">
+                                <span><i class="fa-solid fa-wifi"></i> ฟรี Wi-Fi</span>
+                                <span><i class="fa-solid fa-water-ladder"></i> สระว่ายน้ำ</span>
+                                <span><i class="fa-solid fa-square-parking"></i> ที่จอดรถ</span>
+                            </div>
+                            <div class="card-footer">
+                                <div class="price-wrap">
+                                    <span class="label">เริ่มต้น</span>
+                                    <span class="price">฿${hotel.price.toLocaleString()}</span>
+                                    <span style="font-size: 12px; color: var(--text-muted);">/คืน</span>
+                                </div>
+                                <button class="btn-view" onclick="openModal(${hotel.id})">ดูรายละเอียด</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // ระบบคัดกรอง (Filter Logic)
+        function filterHotels() {
+            const selectedZone = document.getElementById('zoneFilter').value;
+            const selectedStar = document.getElementById('starFilter').value;
+            const selectedPrice = document.getElementById('priceFilter').value;
+
+            const filtered = hotelsData.filter(hotel => {
+                // กรองทำเล
+                const matchZone = (selectedZone === 'all') || (hotel.zone === selectedZone);
+                // กรองระดับดาว
+                const matchStar = (selectedStar === 'all') || (hotel.stars.toString() === selectedStar);
+                // กรองราคา
+                let matchPrice = true;
+                if (selectedPrice === 'under2000') matchPrice = hotel.price < 2000;
+                if (selectedPrice === 'above2000') matchPrice = hotel.price >= 2000;
+
+                return matchZone && matchStar && matchPrice;
+            });
+
+            displayHotels(filtered);
+        }
+
+        // ระบบ Modal Popup แสดงรายละเอียดโรงแรม
+        function openModal(hotelId) {
+            const hotel = hotelsData.find(h => h.id === hotelId);
+            if (!hotel) return;
+
+            document.getElementById('modalHotelName').innerText = hotel.name;
+            document.getElementById('modalHotelStars').innerText = '★'.repeat(hotel.stars) + ` (${hotel.stars} ดาว)`;
+            document.getElementById('modalHotelDesc').innerText = hotel.desc;
+            document.getElementById('modalHotelPrice').innerText = '฿' + hotel.price.toLocaleString();
+            document.getElementById('modalHotelZone').innerText = hotel.zoneLabel;
+            
+            // ใส่ชื่อโรงแรมในช่องฟอร์มอัตโนมัติ
+            document.getElementById('custMessage').value = `สนใจจองห้องพักที่: ${hotel.name}`;
+
+            document.getElementById('hotelModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('hotelModal').style.display = 'none';
+        }
+
+        // ฟังก์ชันรับส่งข้อมูลแบบฟอร์ม
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const contact = document.getElementById('custContact').value;
+            const type = document.getElementById('formType').value;
+
+            alert(`ขอบคุณครับคุณ ${name}!\nระบบได้รับข้อมูลเรียบร้อยแล้ว ทางเจ้าหน้าที่จะติดต่อกลับที่: ${contact}`);
+            document.getElementById('inquiryForm').reset();
+        }
+
+        // ปิด Modal เมื่อคลิกด้านนอกกล่อง
+        window.onclick = function(event) {
+            const modal = document.getElementById('hotelModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // แสดงผลโรงแรมทั้งหมดครั้งแรกเมื่อโหลดหน้าเว็บ
+        displayHotels(hotelsData);
+    </script>
+</body>
+</html>
